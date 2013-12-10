@@ -1,0 +1,37 @@
+import sys
+import math
+
+def l2(x):
+	return math.log(x,2)
+
+def entropy(a,b):
+	if a==0:
+		return -b*l2(b)
+	if b==0:
+		return -a*l2(a)
+	return -a*l2(a)-b*l2(b)
+
+def info(a,b):
+	return entropy(a/(a+b),b/(a+b))
+
+print "\tInfo Gain for 2-class problem"
+print "How much branches?"
+branch=map(int,sys.stdin.readline())
+
+print "Insert values BEFORE: "
+yesB,noB = map (float, sys.stdin.readline().split())
+infoBefore=info(yesB,noB)
+
+if branch==2:
+	print "Insert values AFTER: "
+	yesA1,noA1,yesA2,noA2 = map(float,sys.stdin.readline().split())
+	infoAfter2= (yesA1+noA1)/(yesA1+noA1+yesA2+noA2) * info(yesA1,noA1) + (yesA2+noA2)/(yesA1+noA1+yesA2+noA2) * info(yesA2,noA2)
+	gain2=infoBefore-infoAfter2
+	print "Result gain= " + str(gain2)
+
+if branch==3:
+	print "Insert values AFTER: "
+	yesA1,noA1,yesA2,noA2,yesA3,noA3 = map(float,sys.stdin.readline().split())
+	infoAfter3= (yesA1+noA1)/(yesA1+noA1+yesA2+noA2) * info(yesA1,noA1) + (yesA2+noA2)/(yesA1+noA1+yesA2+noA2) * info(yesA2,noA2) + (yesA3+noA3)/((yesA1+noA1+yesA2+noA2) * info(yesA3,noA3)
+	gain3=infoBefore-infoAfter3
+	print "Result gain= " + str(gain3)
